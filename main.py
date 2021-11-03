@@ -22,10 +22,15 @@ def ask_option(users, expenses):
     ask_option(users, expenses)
 
 
+# --- Function to handle the concerned people inside the csv --- #
+def str_to_list(string):
+    str2 = string[2:len(string) - 2]
+    return str2.split("', '")
+
 # ------------------------------------------------- #
 # --- Get the persisted data from the CSV files --- #
 # ------------------------------------------------- #
-def get_existing_data(filename):
+def get_existing_users(filename):
     res =  []
     with open(filename, 'r', newline='') as csvfile:
         reader = csv.reader(csvfile, delimiter=',',
@@ -37,12 +42,23 @@ def get_existing_data(filename):
     return res
 
 
+def get_existing_expenses(filename):
+    res =  []
+    with open(filename, 'r', newline='') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+
+        for row in reader:
+            res.append([row[0], row[1], row[2], str_to_list(row[3])])
+
+    return res
+
+
 
 def main():
-    users       = get_existing_data('data/users.csv')
-    print(users)
-    expenses    = get_existing_data('data/expense_report.csv')  
-    print(expenses)
+    str_to_list("['SIGL', 'RDuval', 'PChojka']")
+    users       = get_existing_users('data/users.csv')
+    expenses    = get_existing_expenses('data/expense_report.csv')  
 
     ask_option(users, expenses)
     #unittest.main()

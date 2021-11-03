@@ -21,7 +21,13 @@ expense_questions = [
     {
         "type":"list",
         "name":"spender",
-        "message":"New Expense - Existing Users",
+        "message":"New Expense - Spender",
+        "choices": ["TO CHANGE"]
+    },
+    {
+        "type":"checkbox",
+        "name":"concerned",
+        "message":"New Expense - Concerned Users",
         "choices": ["TO CHANGE"]
     }
 ]
@@ -30,7 +36,9 @@ expense_questions = [
 def new_expense(expenses, users, *args):
 
     # Changing a question using the users list TEMPORARY SOLUTION
-    expense_questions[2]['choices'] = [item for sublist in users for item in sublist]
+    flatten_users = [item for sublist in users for item in sublist]
+    expense_questions[2]['choices'] = flatten_users
+    expense_questions[3]['choices'] = [ {'name': x, 'checked': False} for x in flatten_users]
 
     # --- New User's Answers --- #
     infos       = prompt(expense_questions)
@@ -40,9 +48,15 @@ def new_expense(expenses, users, *args):
         print(f"{colors['RED']}Wrong Expense specified !{colors['NC']}")
         return False
 
-    # --- Update the expenses list ---
-    infos_list  = [infos['amount'], infos['label'], infos['spender']]
+    # --- Update the expenses list --- #
+    
+    # Do the average
+    avg = int(infos['amount']) / len(infos['concerned'])
+    print(avg)
+
+    infos_list  = [infos['amount'], infos['label'], infos['spender'], infos['concerned'], avg]
     expenses.append(infos_list)
+    print(expenses)
 
     # --- Persist new expense inside a csv file ---
     with open('data/expense_report.csv', 'a', newline='') as csvfile:
