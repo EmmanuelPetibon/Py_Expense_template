@@ -14,7 +14,7 @@ def ask_option(users, expenses):
     }
     option = prompt(main_option)
     if (option['main_options']) == "New Expense":
-        new_expense(expenses)
+        new_expense(expenses, users)
     if (option['main_options']) == "New User":
         add_user(users)
     if (option['main_options']) == "Quit":

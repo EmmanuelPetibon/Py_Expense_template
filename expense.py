@@ -1,6 +1,12 @@
 from PyInquirer import prompt
 import csv
 
+colors = {
+    "RED": "\033[91m",
+    "NC": "\033[0m",
+    "CYAN": "\033[96m"
+}
+
 expense_questions = [
     {
         "type":"input",
@@ -13,22 +19,19 @@ expense_questions = [
         "message":"New Expense - Label: ",
     },
     {
-        "type":"input",
+        "type":"list",
         "name":"spender",
-        "message":"New Expense - Spender: ",
-    },
-
+        "message":"New Expense - Existing Users",
+        "choices": ["TO CHANGE"]
+    }
 ]
 
 
-colors = {
-    "RED": "\033[91m",
-    "NC": "\033[0m",
-    "CYAN": "\033[96m"
-}
+def new_expense(expenses, users, *args):
 
+    # Changing a question using the users list TEMPORARY SOLUTION
+    expense_questions[2]['choices'] = [item for sublist in users for item in sublist]
 
-def new_expense(expenses, *args):
     # --- New User's Answers --- #
     infos       = prompt(expense_questions)
 
