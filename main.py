@@ -1,6 +1,7 @@
 from PyInquirer import prompt
 from examples import custom_style_2
 from expense import expense_questions,new_expense
+import unittest
 
 def ask_option():
     main_option = {
@@ -16,5 +17,6 @@ def ask_option():
 
 def main():
     ask_option()
+    #unittest.main()
 
 main()
